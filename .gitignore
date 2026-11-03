@@ -1,0 +1,41 @@
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Build files
+dist/
+**/dist/
+build/
+**/build/
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Keep example environment files
+!.env.example
+
+# ZIP files
+*.zip
+
+# IDE
+.idea/
+**/.idea/
+.vscode/
+
+# Android generated files
+.gradle/
+**/.gradle/
+local.properties
+
+# OS
+.DS_Store
+Thumbs.db

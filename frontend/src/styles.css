@@ -1,0 +1,367 @@
+
+
+:root {
+  --bg: #e9eef5;
+  --surface: #ffffff;
+  --field: #f3f6fb;
+  --ink: #0f1b33;
+  --muted: #64708a;
+  --line: #e3e8f0;
+
+  --accent: #2347d5; /* main buttons, focus ring */
+  --accent-hover: #1a38b3;
+  --on-accent: #ffffff;
+  --done: #12896a; /* completed tasks */
+  --danger: #c8372d;
+  --danger-soft: #fdecea;
+
+  --radius: 16px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgba(15, 27, 51, 0.06), 0 12px 32px -12px rgba(15, 27, 51, 0.18);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a111f;
+    --surface: #131c2f;
+    --field: #1b2740;
+    --ink: #e8eefb;
+    --muted: #8f9cb8;
+    --line: #243250;
+
+    --accent: #7b97ff;
+    --accent-hover: #96acff;
+    --on-accent: #0a111f;
+    --done: #3fcf9f;
+    --danger: #ff7b70;
+    --danger-soft: #3a1f26;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+
+/* ---------- base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* keep content clear of phone notches and the gesture bar in the Capacitor app */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- layout ---------- */
+
+/* login page: card centred on the screen */
+.center {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.box {
+  width: min(100%, 400px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* todo page: wider card near the top of the screen */
+.box.wide {
+  width: min(100% - 32px, 600px);
+  max-width: none;
+  margin: 48px auto;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.header h1 {
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+/* ---------- form controls ---------- */
+
+input:not([type="checkbox"]) {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  background: var(--field);
+  color: var(--ink);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 1rem; /* 16px stops iPhones zooming in when you tap the field */
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+input:not([type="checkbox"])::placeholder {
+  color: var(--muted);
+}
+
+input:not([type="checkbox"]):focus {
+  outline: none;
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+button {
+  min-height: 48px;
+  padding: 0 18px;
+  background: var(--field);
+  color: var(--ink);
+  border: 0;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, transform 0.1s;
+}
+
+button:hover {
+  background: var(--line);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button.primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+button.primary:hover {
+  background: var(--accent-hover);
+}
+
+button.danger {
+  color: var(--danger);
+}
+
+button.danger:hover {
+  background: var(--danger-soft);
+}
+
+/* keyboard users get a clear ring on everything clickable */
+button:focus-visible,
+input[type="checkbox"]:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- todo list ---------- */
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+li:first-child {
+  border-top: 0;
+}
+
+/* round checkbox that fills green with a tick when the task is done */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  border: 2px solid var(--muted);
+  border-radius: 50%;
+  background: transparent center / 14px no-repeat;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+input[type="checkbox"]:hover {
+  border-color: var(--done);
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--done);
+  border-color: var(--done);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 7.5l3 3 6-7'/%3E%3C/svg%3E");
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+  text-decoration: line-through transparent;
+  text-decoration-thickness: 2px;
+  transition: color 0.25s, text-decoration-color 0.25s;
+}
+
+.done {
+  color: var(--muted);
+  text-decoration-color: var(--done);
+}
+
+/* Edit / Delete / Save / Cancel: quiet buttons that sit beside each task */
+li button {
+  min-height: 40px;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+li button:hover {
+  background: var(--field);
+  color: var(--ink);
+}
+
+li button.danger {
+  color: var(--danger);
+}
+
+li button.danger:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+li button.primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+li button.primary:hover {
+  background: var(--accent-hover);
+  color: var(--on-accent);
+}
+
+/* while editing a task, the text field takes the free space */
+li input:not([type="checkbox"]) {
+  min-height: 42px;
+}
+
+/* ---------- messages ---------- */
+
+.error {
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.empty {
+  margin: 0;
+  padding: 28px 16px;
+  border: 2px dashed var(--line);
+  border-color: color-mix(in srgb, var(--muted) 40%, transparent); /* older browsers keep the line above */
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  text-align: center;
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 480px) {
+  .box {
+    padding: 22px 18px;
+  }
+
+  .box.wide {
+    margin: 20px auto;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  /* give Edit/Delete room: the title wraps onto its own line above them */
+  li {
+    flex-wrap: wrap;
+    gap: 0 12px; /* no extra gap between the title line and its buttons */
+    padding: 10px 0 6px;
+  }
+
+  .title,
+  li input:not([type="checkbox"]) {
+    flex: 1 1 calc(100% - 40px);
+    width: auto;
+  }
+
+  li button {
+    margin-left: auto;
+  }
+
+  li button + button {
+    margin-left: 0;
+  }
+}
+
+/* people who ask their phone for less motion get none */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
